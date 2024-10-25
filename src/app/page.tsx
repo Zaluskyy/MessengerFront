@@ -6,6 +6,8 @@ import Login from "./components/Login";
 import { useContext, useEffect } from "react";
 import MessageContext from "./context/context";
 import Profile from "./components/Profile";
+import Messenger from "./components/Messenger";
+import GetConversation from "./components/GetConversation";
 
 export default function Home() {
   const messageContext = useContext(MessageContext);
@@ -34,8 +36,15 @@ export default function Home() {
 
   return (
     <div className={styles.Home}>
-      <div>kurwa</div>
-      {logged ? <Profile /> : <Login />}
+      {logged ? (
+        <>
+          <Profile />
+          <Messenger />
+          {/* <GetConversation /> */}
+        </>
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }
