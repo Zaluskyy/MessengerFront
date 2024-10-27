@@ -5,9 +5,8 @@ import styles from "./page.module.css";
 import Login from "./components/Login";
 import { useContext, useEffect } from "react";
 import MessageContext from "./context/context";
-import Profile from "./components/Profile";
-import Messenger from "./components/Messenger";
-import GetConversation from "./components/GetConversation";
+import Profile from "./components/TopBar";
+import Messenger from "./components/Messenger/Messenger";
 
 export default function Home() {
   const messageContext = useContext(MessageContext);

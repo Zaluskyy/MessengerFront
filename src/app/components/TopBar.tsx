@@ -3,8 +3,9 @@
 import React, { useContext } from "react";
 import MessageContext from "../context/context";
 import toast from "react-hot-toast";
+import style from "../styles/TopBar.module.scss";
 
-const Profile = () => {
+const TopBar = () => {
   const messageContext = useContext(MessageContext);
   const { logged, userId, userName, setLogged, setUserId, setUserName } =
     messageContext;
@@ -30,13 +31,26 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <h1>Profile</h1>
+    <div className={style.TopBar}>
+      <div className={style.logoContainer}>
+        <span>Messenger App</span>
+      </div>
+
+      <div className={style.right}>
+        <div className={style.nameContainer}>
+          <span>{userName}</span>
+        </div>
+        <div className={style.logoutContainer}>
+          <button onClick={handleLogout}>Wyloguj</button>
+        </div>
+      </div>
+
+      {/* <h1>Profile</h1>
       <h2>Hej {userName}</h2>
       <h3>Twoje id to {userId}</h3>
-      <button onClick={handleLogout}>Wyloguj</button>
+      <button onClick={handleLogout}>Wyloguj</button> */}
     </div>
   );
 };
 
-export default Profile;
+export default TopBar;

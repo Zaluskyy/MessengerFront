@@ -7,12 +7,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-import style from "../styles/Messenger.module.scss";
-import GetConversation from "./GetConversation";
-import MessageContext from "../context/context";
-import { IConversation } from "../interfaces/interfaces";
+import style from "../../styles/Messenger.module.scss";
+import MessageContext from "../../context/context";
+import { IConversation } from "../../interfaces/interfaces";
 import toast from "react-hot-toast";
-import GetFriend from "./GetFriend";
+import GetFriend from "../GetFriend";
 
 const Messenger = () => {
   const messageContext = useContext(MessageContext);
