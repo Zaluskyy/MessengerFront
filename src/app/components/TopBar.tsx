@@ -1,14 +1,27 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import MessageContext from "../context/context";
 import toast from "react-hot-toast";
 import style from "../styles/TopBar.module.scss";
+import { motion } from "framer-motion";
+import { submit } from "../UI/LoginVariants";
+import { friendBtn } from "../UI/TopBar";
 
 const TopBar = () => {
   const messageContext = useContext(MessageContext);
-  const { logged, userId, userName, setLogged, setUserId, setUserName } =
-    messageContext;
+  const {
+    logged,
+    userId,
+    userName,
+    setLogged,
+    setUserId,
+    setUserName,
+    setCurrentFriend,
+    setFriends,
+    addFriendPopUp,
+    setAddFriendPopUp,
+  } = messageContext;
 
   const handleLogout = async () => {
     try {
@@ -21,6 +34,8 @@ const TopBar = () => {
         setLogged(false);
         setUserId();
         setUserName("");
+        setCurrentFriend(null);
+        setFriends(null);
         toast("Wylogowano");
       } else {
         toast("Wylogowanie nie powiodło się kurwa");
@@ -37,6 +52,15 @@ const TopBar = () => {
       </div>
 
       <div className={style.right}>
+        <motion.div
+          variants={friendBtn}
+          whileHover="whileHover"
+          transition={{ duration: 0.01 }}
+          className={style.findFriendContainer}
+          onClick={() => setAddFriendPopUp(true)}
+        >
+          <span>Add Friend</span>
+        </motion.div>
         <div className={style.nameContainer}>
           <span>{userName}</span>
         </div>

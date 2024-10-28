@@ -11,11 +11,11 @@ import style from "../../styles/Messenger.module.scss";
 import MessageContext from "../../context/context";
 import { IConversation } from "../../interfaces/interfaces";
 import toast from "react-hot-toast";
-import GetFriend from "../GetFriend";
+import GetFriend from "./GetFriend";
 
 const Messenger = () => {
   const messageContext = useContext(MessageContext);
-  const { userId, friend } = messageContext;
+  const { userId, currentFriend } = messageContext;
 
   const [newMessage, setNewMessage] = useState<string>("");
 
@@ -63,7 +63,7 @@ const Messenger = () => {
     const getMessages = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5093/messages/${userId}/${friend.id}`,
+          `http://localhost:5093/messages/${userId}/${currentFriend.id}`,
           {
             method: "GET",
           }
@@ -77,10 +77,10 @@ const Messenger = () => {
         console.log(err);
       }
     };
-    if (friend !== null) {
+    if (currentFriend !== null) {
       getMessages();
     }
-  }, [friend]);
+  }, [currentFriend]);
 
   const friendsRef = useRef<HTMLDivElement | null>(null);
   const [hiddenFriends, setHiddenFriends] = useState<boolean>(false);
@@ -106,7 +106,7 @@ const Messenger = () => {
           },
           body: JSON.stringify({
             senderId: userId,
-            receiverId: friend.id,
+            receiverId: currentFriend.id,
             text: newMessage,
           }),
         });
@@ -140,7 +140,8 @@ const Messenger = () => {
             <div onClick={() => setHiddenFriends(false)}>show friends| |</div>
           )}
           <span>
-            {friend !== null && `Id: ${friend.id}, Name ${friend.name}`}
+            {currentFriend !== null &&
+              `Id: ${currentFriend.id}, Name ${currentFriend.name}`}
           </span>
         </div>
         <div className={style.center} ref={centerRef}>

@@ -7,10 +7,19 @@ import { useContext, useEffect } from "react";
 import MessageContext from "./context/context";
 import Profile from "./components/TopBar";
 import Messenger from "./components/Messenger/Messenger";
+// import AddFriendPopUp from "./components/popUp/addFriend";
+import AddFriendPopUp from "./components/popUp/AddFriend";
 
 export default function Home() {
   const messageContext = useContext(MessageContext);
-  const { logged, setLogged, setUserId, setUserName } = messageContext;
+  const {
+    logged,
+    setLogged,
+    setUserId,
+    setUserName,
+    setFriends,
+    addFriendPopUp,
+  } = messageContext;
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -25,6 +34,7 @@ export default function Home() {
           setLogged(data.isAuthenticated);
           setUserId(data.id);
           setUserName(data.name);
+          setFriends(data.friendlist);
         }
       } catch (err) {
         console.log(err);
@@ -39,6 +49,8 @@ export default function Home() {
         <>
           <Profile />
           <Messenger />
+          {addFriendPopUp && <AddFriendPopUp />}
+          {/* <AddFriendPopUp /> */}
           {/* <GetConversation /> */}
         </>
       ) : (

@@ -12,7 +12,10 @@ export const MessageContextProvider = ({
   const [logged, setLogged] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
   const [userName, setUserName] = useState<string>("");
-  const [friend, setFriend] = useState<IUser | null>(null);
+  const [currentFriend, setCurrentFriend] = useState<IUser | null>(null);
+  const [friends, setFriends] = useState<IUser[] | null>(null);
+
+  const [addFriendPopUp, setAddFriendPopUp] = useState<boolean>(false);
   // const [friendId, setFriendId] = useState<number | null>(null);
   // const [friendName, setFriendName] = useState<string | null>(null);
   return (
@@ -24,8 +27,12 @@ export const MessageContextProvider = ({
         setUserId,
         userName,
         setUserName,
-        friend,
-        setFriend,
+        currentFriend,
+        setCurrentFriend,
+        friends,
+        setFriends,
+        addFriendPopUp,
+        setAddFriendPopUp,
         // friendId,
         // setFriendId,
         // friendName,

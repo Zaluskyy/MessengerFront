@@ -1,9 +1,9 @@
 "use client";
 
 import toast from "react-hot-toast";
-import MessageContext from "../context/context";
-import { IUser } from "../interfaces/interfaces";
-import style from "../styles/GetFriend.module.scss";
+import MessageContext from "../../context/context";
+import { IUser } from "../../interfaces/interfaces";
+import style from "../../styles/GetFriend.module.scss";
 import React, {
   Ref,
   RefObject,
@@ -20,28 +20,21 @@ interface IGetFriend {
 
 const GetFriend: React.FC<IGetFriend> = ({ setHiddenFriends, friendsRef }) => {
   const messageContext = useContext(MessageContext);
-  const { userId, friend, setFriend } = messageContext;
-
-  const [usersData, setUsersData] = useState<IUser[] | null>(null);
+  const { userId, currentFriend, setCurrentFriend, friends } = messageContext;
 
   const [userList, setUserList] = useState<React.JSX.Element[] | null>(null);
 
   useEffect(() => {
-    if (usersData) {
-      console.log(friend);
-      console.log("kurwa");
-      const y = usersData
+    if (friends) {
+      const y = friends
         .filter((item: IUser) => item.id !== userId)
         .map((item: IUser) => {
           return (
             <div
               key={item.id}
-              onClick={() => setFriend(item)}
+              onClick={() => setCurrentFriend(item)}
               className={
-                // friend?.id == item.id
-                //   ? `${style.friend} ${style.active}`:style.friend
-                // style.friend
-                friend !== null && friend.id == item.id
+                currentFriend !== null && currentFriend.id == item.id
                   ? `${style.friend} ${style.active}`
                   : style.friend
               }
@@ -52,24 +45,42 @@ const GetFriend: React.FC<IGetFriend> = ({ setHiddenFriends, friendsRef }) => {
         });
       setUserList(y);
     }
-  }, [usersData, friend]);
+  }, [friends, currentFriend]);
 
   useEffect(() => {
+    // const loadFriends = async () => {
+    //   try {
+    //     const response = await fetch("http://localhost:5093/users", {
+    //       method: "GET",
+    //     });
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       // console.log(data);
+    //       setUsersData(data);
+    //       toast("Users loaded");
+    //     } else {
+    //       // console.log("failed loading friends");
+    //     }
+    //   } catch (err) {
+    //     // console.log(err);
+    //   }
+    // };
     const loadFriends = async () => {
       try {
-        const response = await fetch("http://localhost:5093/users", {
+        const response = await fetch(`http://localhost:5093/users/${userId}`, {
           method: "GET",
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          setUsersData(data);
-          toast("Users loaded");
+          // console.log(data);
+          // setUsersData(data);
+          // console.log(data);
+          // toast("Users loaded");
         } else {
-          console.log("failed loading friends");
+          // console.log("failed loading friends");
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     loadFriends();

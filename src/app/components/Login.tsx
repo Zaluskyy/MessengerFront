@@ -9,7 +9,8 @@ import { ContainerVariant, submit } from "../UI/LoginVariants";
 
 const Login = () => {
   const messageContext = useContext(MessageContext);
-  const { setLogged, setUserId, setUserName } = messageContext;
+  const { setLogged, setUserId, setUserName, currentFriend, setFriends } =
+    messageContext;
 
   const [login, setLogin] = useState<string>("Janusz");
   const [password, setPassword] = useState<string>("2137");
@@ -60,6 +61,8 @@ const Login = () => {
           setLogged(true);
           setUserId(data.id);
           setUserName(data.name);
+
+          setFriends(data.friendlist);
         } else {
           console.log("Unauthorized");
           toast("Unauthorized");
