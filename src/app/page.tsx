@@ -1,18 +1,18 @@
 "use client";
 
-import Image from "next/image";
+import { useContext, useEffect } from "react";
+// import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Login from "./components/Login";
-import { useContext, useEffect } from "react";
 import MessageContext from "./context/context";
 import Profile from "./components/TopBar";
 import Messenger from "./components/Messenger/Messenger";
-// import AddFriendPopUp from "./components/popUp/addFriend";
 import AddFriendPopUp from "./components/popUp/AddFriend";
 
 export default function Home() {
   const messageContext = useContext(MessageContext);
   const {
+    apiUrl,
     logged,
     setLogged,
     setUserId,
@@ -21,10 +21,12 @@ export default function Home() {
     addFriendPopUp,
   } = messageContext;
 
+  // const router = useRouter();
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:5093/check-auth", {
+        const response = await fetch(`${apiUrl}/check-auth`, {
           method: "GET",
           credentials: "include",
         });
@@ -35,6 +37,7 @@ export default function Home() {
           setUserId(data.id);
           setUserName(data.name);
           setFriends(data.friendlist);
+          // router.push("/friends");
         }
       } catch (err) {
         console.log(err);
@@ -50,7 +53,6 @@ export default function Home() {
           <Profile />
           <Messenger />
           {addFriendPopUp && <AddFriendPopUp />}
-          {/* <AddFriendPopUp /> */}
           {/* <GetConversation /> */}
         </>
       ) : (

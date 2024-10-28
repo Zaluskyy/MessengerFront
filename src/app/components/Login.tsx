@@ -9,8 +9,14 @@ import { ContainerVariant, submit } from "../UI/LoginVariants";
 
 const Login = () => {
   const messageContext = useContext(MessageContext);
-  const { setLogged, setUserId, setUserName, currentFriend, setFriends } =
-    messageContext;
+  const {
+    apiUrl,
+    setLogged,
+    setUserId,
+    setUserName,
+    currentFriend,
+    setFriends,
+  } = messageContext;
 
   const [login, setLogin] = useState<string>("Janusz");
   const [password, setPassword] = useState<string>("2137");
@@ -46,7 +52,7 @@ const Login = () => {
       handleAddError("Some field are empty");
     } else {
       try {
-        const response = await fetch("http://localhost:5093/login", {
+        const response = await fetch(`${apiUrl}/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -81,7 +87,7 @@ const Login = () => {
       handleAddError("Some field are empty");
     } else if (password == password2) {
       try {
-        const response = await fetch("http://localhost:5093/users/", {
+        const response = await fetch(`${apiUrl}/users/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -156,20 +162,6 @@ const Login = () => {
         </form>
       </motion.div>
     </div>
-
-    // <form onSubmit={handleSubmit}>
-    //   <input
-    //     type="text"
-    //     value={login}
-    //     onChange={(e) => setLogin(e.target.value)}
-    //   />
-    //   <input
-    //     type="password"
-    //     value={password}
-    //     onChange={(e) => setPassword(e.target.value)}
-    //   />
-    //   <input type="submit" />
-    // </form>
   );
 };
 

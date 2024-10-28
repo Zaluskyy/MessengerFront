@@ -20,7 +20,8 @@ interface IGetFriend {
 
 const GetFriend: React.FC<IGetFriend> = ({ setHiddenFriends, friendsRef }) => {
   const messageContext = useContext(MessageContext);
-  const { userId, currentFriend, setCurrentFriend, friends } = messageContext;
+  const { apiUrl, userId, currentFriend, setCurrentFriend, friends } =
+    messageContext;
 
   const [userList, setUserList] = useState<React.JSX.Element[] | null>(null);
 
@@ -50,7 +51,7 @@ const GetFriend: React.FC<IGetFriend> = ({ setHiddenFriends, friendsRef }) => {
   useEffect(() => {
     // const loadFriends = async () => {
     //   try {
-    //     const response = await fetch("http://localhost:5093/users", {
+    //     const response = await fetch(`${apiUrl}/users`, {
     //       method: "GET",
     //     });
     //     if (response.ok) {
@@ -67,7 +68,7 @@ const GetFriend: React.FC<IGetFriend> = ({ setHiddenFriends, friendsRef }) => {
     // };
     const loadFriends = async () => {
       try {
-        const response = await fetch(`http://localhost:5093/users/${userId}`, {
+        const response = await fetch(`${apiUrl}/users/${userId}`, {
           method: "GET",
         });
         if (response.ok) {

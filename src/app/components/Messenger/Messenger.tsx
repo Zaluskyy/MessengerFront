@@ -15,7 +15,7 @@ import GetFriend from "./GetFriend";
 
 const Messenger = () => {
   const messageContext = useContext(MessageContext);
-  const { userId, currentFriend } = messageContext;
+  const { apiUrl, userId, currentFriend } = messageContext;
 
   const [newMessage, setNewMessage] = useState<string>("");
 
@@ -63,7 +63,7 @@ const Messenger = () => {
     const getMessages = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5093/messages/${userId}/${currentFriend.id}`,
+          `${apiUrl}/messages/${userId}/${currentFriend.id}`,
           {
             method: "GET",
           }
@@ -99,7 +99,7 @@ const Messenger = () => {
     e.preventDefault();
     if (newMessage.trim() != "") {
       try {
-        const response = await fetch("http://localhost:5093/messages/", {
+        const response = await fetch(`${apiUrl}/messages/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

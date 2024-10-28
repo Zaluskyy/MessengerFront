@@ -5,16 +5,18 @@ import toast from "react-hot-toast";
 
 const AddFriendPopUp = () => {
   const messageContext = useContext(MessageContext);
-  const { userId, addFriendPopUp, setAddFriendPopUp } = messageContext;
+  const { apiUrl, userId, addFriendPopUp, setAddFriendPopUp } = messageContext;
 
   const [inputFriendCode, setInputFriendCode] = useState<string>("");
+  const [incorrectFriendCode, setIncorrectFriendCode] =
+    useState<boolean>(false);
 
   const handleAddFriend = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
       const response = await fetch(
-        `http://localhost:5093/users/addfriend/${userId}/${inputFriendCode}`,
+        `${apiUrl}/users/addfriend/${userId}/${inputFriendCode}`,
         {
           method: "PUT",
           headers: {
@@ -25,6 +27,8 @@ const AddFriendPopUp = () => {
       if (response.ok) {
         toast("You added new friend");
         setAddFriendPopUp(false);
+      } else {
+        setIncorrectFriendCode(true);
       }
     } catch (err) {
       console.log(err);
@@ -32,7 +36,7 @@ const AddFriendPopUp = () => {
   };
 
   const handleClose = () => {
-    console.log("kurwa jebac disa");
+    setAddFriendPopUp(false);
   };
 
   return (
@@ -49,6 +53,12 @@ const AddFriendPopUp = () => {
               setInputFriendCode(e.target.value);
             }}
           />
+
+          {incorrectFriendCode && (
+            <div className={style.validationContainer}>
+              <span>Incorrect Friend code</span>
+            </div>
+          )}
 
           <input
             type="submit"
