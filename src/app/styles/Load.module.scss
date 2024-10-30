@@ -1,0 +1,25 @@
+.Loading {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid red;
+    border-right-color: transparent;
+    animation: spin ease-in-out 1s infinite;
+    position: absolute;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

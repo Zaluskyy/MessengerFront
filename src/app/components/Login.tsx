@@ -6,31 +6,26 @@ import MessageContext from "../context/context";
 import style from "../styles/Login.module.scss";
 import { motion } from "framer-motion";
 import { ContainerVariant, submit } from "../UI/LoginVariants";
+import { useRouter } from "next/navigation";
 
-const Login = () => {
+interface ILogin {
+  loginOrRegister: "LOGIN" | "REGISTER";
+}
+
+const Login: React.FC<ILogin> = ({ loginOrRegister }) => {
   const messageContext = useContext(MessageContext);
-  const {
-    apiUrl,
-    setLogged,
-    setUserId,
-    setUserName,
-    currentFriend,
-    setFriends,
-  } = messageContext;
+  const { apiUrl, setLogged, setUserId, setUserName, setFriends } =
+    messageContext;
 
   const [login, setLogin] = useState<string>("Janusz");
   const [password, setPassword] = useState<string>("2137");
   const [password2, setPassword2] = useState<string>("");
 
-  const [loginMode, setLoginMode] = useState<boolean>(true);
+  const [loginMode, setLoginMode] = useState<boolean>(
+    loginOrRegister == "LOGIN" ? true : false
+  );
   const [formError, setFormError] = useState<string[] | null>(null);
-
-  useEffect(() => {
-    setLogin("");
-    setPassword("");
-    setPassword2("");
-    setFormError(null);
-  }, [loginMode]);
+  const router = useRouter();
 
   const handleAddError = (errorText: string) => {
     setFormError((prev: string[] | null) => {
@@ -67,8 +62,8 @@ const Login = () => {
           setLogged(true);
           setUserId(data.id);
           setUserName(data.name);
-
           setFriends(data.friendlist);
+          router.push("/friends");
         } else {
           console.log("Unauthorized");
           toast("Unauthorized");
@@ -120,7 +115,9 @@ const Login = () => {
 
           <motion.span
             className={style.registerClick}
-            onClick={() => setLoginMode((prev) => !prev)}
+            onClick={() =>
+              loginMode ? router.push("register") : router.push("login")
+            }
           >
             {loginMode ? "Register" : "Login"}
           </motion.span>

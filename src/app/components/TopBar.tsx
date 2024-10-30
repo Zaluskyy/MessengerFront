@@ -6,13 +6,12 @@ import toast from "react-hot-toast";
 import style from "../styles/TopBar.module.scss";
 import { motion } from "framer-motion";
 import { friendBtn } from "../UI/TopBar";
+import { useRouter } from "next/navigation";
 
 const TopBar = () => {
   const messageContext = useContext(MessageContext);
   const {
     apiUrl,
-    logged,
-    userId,
     userName,
     setLogged,
     setUserId,
@@ -22,7 +21,12 @@ const TopBar = () => {
     setAddFriendPopUp,
   } = messageContext;
 
+  const router = useRouter();
+
   const handleLogout = async () => {
+    router.push("/login");
+    // router.push("/");
+
     try {
       const response = await fetch(`${apiUrl}/logout`, {
         method: "POST",
