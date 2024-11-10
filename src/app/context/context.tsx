@@ -10,19 +10,21 @@ export const MessageContextProvider = ({
   children: ReactNode;
 }) => {
   // const apiUrl = "http://localhost:5093";
-  const apiUrl = "http://192.168.0.136:5000";
+  const apiUrl = "http://192.168.0.202:5000";
+  const [pageWidth, setPageWidth] = useState<null | number>(null);
   const [logged, setLogged] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
   const [userName, setUserName] = useState<string>("");
   const [currentFriend, setCurrentFriend] = useState<IUser | null>(null);
   const [friends, setFriends] = useState<IUser[] | null>(null);
-
   const [addFriendPopUp, setAddFriendPopUp] = useState<boolean>(false);
 
   return (
     <MessageContext.Provider
       value={{
         apiUrl,
+        pageWidth,
+        setPageWidth,
         logged,
         setLogged,
         userId,

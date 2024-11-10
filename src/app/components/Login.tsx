@@ -91,7 +91,7 @@ const Login: React.FC<ILogin> = ({ loginOrRegister }) => {
         });
         if (response.ok) {
           toast("Zarejestrowano pomyślnie. Zaloguj się na swoje konto");
-          setLoginMode(true);
+          router.push("/login");
         }
       } catch (err) {
         console.log(err);

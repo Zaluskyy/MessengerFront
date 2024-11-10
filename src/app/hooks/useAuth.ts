@@ -6,9 +6,10 @@ import { useRouter } from 'next/navigation';
 
 interface IUseAuth {
   register?: boolean;
+  redirect?: boolean;
 }
 
-const useAuth = ({ register }: IUseAuth = {}) => { 
+const useAuth = ({ register, redirect = true }: IUseAuth = {}) => { 
 
 
   const messageContext = useContext(MessageContext);
@@ -38,10 +39,16 @@ const useAuth = ({ register }: IUseAuth = {}) => {
           setUserId(data.id);
           setUserName(data.name);
           setFriends(data.friendlist);
-          router.push("/friends");
+          if(redirect){
+            router.push("/friends");
+          }
         } else {
-          if(register)router.push("/register")
-          else router.push("/login");
+          if(register){
+              router.push("/register")
+          }
+          else{
+              router.push("/login");
+          } 
         }
       } catch (err) {
         console.log(err);

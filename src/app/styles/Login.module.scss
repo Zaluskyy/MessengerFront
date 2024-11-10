@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(41, 40, 40);
+  background-color: $greyBackground;
 
   .container {
     // width: 350px;
@@ -16,7 +16,7 @@
     align-items: center;
     gap: 25px;
     padding: 30px;
-    background-color: rgb(25, 24, 24);
+    background-color: $darkBackground;
     border-radius: 12px;
     border: 1px solid $borderBlue05;
 

@@ -7,6 +7,7 @@ import style from "../styles/TopBar.module.scss";
 import { motion } from "framer-motion";
 import { friendBtn } from "../UI/TopBar";
 import { useRouter } from "next/navigation";
+import AddFriendPopUp from "./popUp/AddFriend";
 
 const TopBar = () => {
   const messageContext = useContext(MessageContext);
@@ -15,9 +16,11 @@ const TopBar = () => {
     userName,
     setLogged,
     setUserId,
+    userId,
     setUserName,
     setCurrentFriend,
     setFriends,
+    addFriendPopUp,
     setAddFriendPopUp,
   } = messageContext;
 
@@ -25,7 +28,6 @@ const TopBar = () => {
 
   const handleLogout = async () => {
     router.push("/login");
-    // router.push("/");
 
     try {
       const response = await fetch(`${apiUrl}/logout`, {
@@ -66,11 +68,13 @@ const TopBar = () => {
         </motion.div>
         <div className={style.nameContainer}>
           <span>{userName}</span>
+          <span>{userId}</span>
         </div>
         <div className={style.logoutContainer}>
           <button onClick={handleLogout}>Wyloguj</button>
         </div>
       </div>
+      {addFriendPopUp && <AddFriendPopUp />}
     </div>
   );
 };

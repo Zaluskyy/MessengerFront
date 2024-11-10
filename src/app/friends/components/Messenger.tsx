@@ -7,15 +7,18 @@ import React, {
   useRef,
   useState,
 } from "react";
-import style from "../../styles/Messenger.module.scss";
+import style from "../style/Messenger.module.scss";
 import MessageContext from "../../context/context";
 import { IConversation } from "../../interfaces/interfaces";
 import toast from "react-hot-toast";
 import GetFriend from "./GetFriend";
+import Image from "next/image";
+import leftArrow from "../../../../img/leftArrow.svg";
+import { useRouter } from "next/navigation";
 
 const Messenger = () => {
   const messageContext = useContext(MessageContext);
-  const { apiUrl, userId, currentFriend } = messageContext;
+  const { apiUrl, userId, currentFriend, setCurrentFriend } = messageContext;
 
   const [newMessage, setNewMessage] = useState<string>("");
 
@@ -27,6 +30,10 @@ const Messenger = () => {
   >();
 
   const centerRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
+
+  // const searchParams = useSearchParams();
 
   useEffect(() => {
     if (centerRef.current) {
@@ -70,7 +77,7 @@ const Messenger = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
           setConversationData(data);
         }
       } catch (err) {
@@ -125,6 +132,11 @@ const Messenger = () => {
     }
   };
 
+  const handleBackToList = () => {
+    setCurrentFriend(null);
+    router.replace("/friends");
+  };
+
   return (
     <div className={style.Messenger}>
       {/* <div className={style.friends} ref={friendsRef}>
@@ -133,20 +145,23 @@ const Messenger = () => {
         </span>
         {y}
       </div> */}
-      <GetFriend setHiddenFriends={setHiddenFriends} friendsRef={friendsRef} />
-      <div className={style.chat}>
+      {/* <GetFriend setHiddenFriends={setHiddenFriends} friendsRef={friendsRef} /> */}
+      {currentFriend && (
         <div className={style.topBar}>
           {hiddenFriends && (
             <div onClick={() => setHiddenFriends(false)}>show friends| |</div>
           )}
           <span>
+            <Image src={leftArrow} alt="leftArrow" onClick={handleBackToList} />
             {currentFriend !== null &&
-              `Id: ${currentFriend.id}, Name ${currentFriend.name}`}
+              `Id: ${currentFriend.id}, Name: ${currentFriend.name}`}
           </span>
         </div>
-        <div className={style.center} ref={centerRef}>
-          {conversationElements}
-        </div>
+      )}
+      <div className={style.center} ref={centerRef}>
+        {conversationElements}
+      </div>
+      {currentFriend && (
         <div className={style.bottomBar}>
           <form onSubmit={(e) => handleSendNewMessage(e)}>
             <div className={style.inputContainer}>
@@ -157,11 +172,11 @@ const Messenger = () => {
               />
             </div>
             <div className={style.sendButtonContainer}>
-              <input value={"kurwa"} type="submit" />
+              <input value={"Send"} type="submit" />
             </div>
           </form>
         </div>
-      </div>
+      )}
     </div>
   );
 };
